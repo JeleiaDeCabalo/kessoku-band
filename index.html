@@ -68,11 +68,21 @@
         text-overflow: ellipsis; /* Adiciona "..." caso o texto fique muito grande */
         }
 
-
         .logo {
             filter: drop-shadow(0px 0px 10px white);
         }
-        
+
+        .spotify-embed {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Ocultar o embed quando a música não está em destaque */
+        .hidden {
+            display: none;
+        }
+
     </style>
 </head>
 <body>
@@ -160,6 +170,7 @@
 
         mudarIntegrante(0); // Inicializa a exibição correta
     </script>
+
     <h2>Músicas da Banda</h2>
     <div class="carousel" id="carousel-musicas">
         <div class="arrow" onclick="mudarMusica(-1)">&#9665;</div>
@@ -174,6 +185,7 @@
             <a id="link-musica-atual" href="#" target="_blank">
                 <img id="imagem-musica-atual" src="seishun-complex.jpg">
             </a>
+            <div id="spotify-embed-atual" class="spotify-embed hidden"></div> <!-- Embed escondido inicialmente -->
         </div>
     
         <div class="integrante lateral" id="musica-proxima">
@@ -183,51 +195,60 @@
     
         <div class="arrow" onclick="mudarMusica(1)">&#9655;</div>
     </div>
+
     <script>
         const musicas = [
             {
                 nome: "Seishun Complex",
                 imagem: "kessoku_band_hitoribocchi_cover.jpg",
-            link: "https://open.spotify.com/intl-pt/track/0jpP8AlQLVtaMwA3vQYpYB?si=2a9b49f6df2d49aa"
+                embed: `<iframe src="https://open.spotify.com/embed/track/0jpP8AlQLVtaMwA3vQYpYB?utm_source=generator" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`,
+                link: "https://open.spotify.com/intl-pt/track/0jpP8AlQLVtaMwA3vQYpYB?si=2a9b49f6df2d49aa"
             },
             {
                 nome: "Distortion!!",
                 imagem: "Kessoku_Band_album_cover.jpg",
+                embed: `<iframe src="https://open.spotify.com/embed/track/3l8rIBKJUDQFqQfKvcpQ1w?utm_source=generator" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`,
                 link: "https://open.spotify.com/intl-pt/track/3l8rIBKJUDQFqQfKvcpQ1w?si=891c1f1b6b044963"
             },
             {
                 nome: "Hitoribocchi Tokyo",
                 imagem: "kessoku_band_hitoribocchi_cover.jpg",
+                embed: `<iframe src="https://open.spotify.com/embed/track/5FlFJocxsY6XHHqUtYuEvo?utm_source=generator" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`,
                 link: "https://open.spotify.com/intl-pt/track/5FlFJocxsY6XHHqUtYuEvo?si=f44ff7aeb2f0405d"
             },
             {
                 nome: "Guitar, Loneliness and Blue Planet",
                 imagem: "kessoku_band_glabp_cover.webp",
+                embed: `<iframe src="https://open.spotify.com/embed/track/17rhDgnYYryQU4uS71ZxFu?utm_source=generator" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`,
                 link: "https://open.spotify.com/intl-pt/track/17rhDgnYYryQU4uS71ZxFu?si=98a62798304346af"
             }
         ];
-    
+
         let musicaIndex = 0;
-    
+
         function mudarMusica(direcao) {
             musicaIndex = (musicaIndex + direcao + musicas.length) % musicas.length;
-    
+
             const anteriorIndex = (musicaIndex - 1 + musicas.length) % musicas.length;
             const proximoIndex = (musicaIndex + 1) % musicas.length;
-    
+
             document.getElementById("nome-musica-anterior").innerHTML = musicas[anteriorIndex].nome;
             document.getElementById("imagem-musica-anterior").src = musicas[anteriorIndex].imagem;
-    
+
             document.getElementById("nome-musica-atual").innerHTML = `<b>${musicas[musicaIndex].nome}</b>`;
             document.getElementById("imagem-musica-atual").src = musicas[musicaIndex].imagem;
             document.getElementById("link-musica-atual").href = musicas[musicaIndex].link;
-    
+
+            // Exibir o embed e esconder a capa da música
+            document.getElementById("spotify-embed-atual").innerHTML = musicas[musicaIndex].embed;
+            document.getElementById("spotify-embed-atual").classList.remove("hidden");
+            document.getElementById("imagem-musica-atual").classList.add("hidden");
+
             document.getElementById("nome-musica-proxima").innerHTML = musicas[proximoIndex].nome;
             document.getElementById("imagem-musica-proxima").src = musicas[proximoIndex].imagem;
         }
-    
+
         mudarMusica(0); // Inicializa o carrossel de músicas
     </script>
-    
 </body>
 </html>
