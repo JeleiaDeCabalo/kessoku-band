@@ -3,6 +3,7 @@
 <head> 
     <link rel="icon" type="image/png" href="Kessoku_Band_Logo.webp">
     <title>Kessoku Band</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             background: linear-gradient(to bottom, black, #0d0d1a);
@@ -17,22 +18,30 @@
         }
 
         .carousel {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 50px;
-            gap: 20px;
-        }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 50px auto 0 auto; /* topo + centraliza horizontalmente */
+    max-width: 1000px; /* limita a largura em telas grandes */
+    padding: 0 20px; /* espaçamento lateral em telas pequenas */
+}
+
+
 
         .integrante {
             display: flex;
             flex-direction: column;
             align-items: center;
             transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            flex: 1 1 150px;
         }
 
         .integrante img {
             transition: 0.5s ease-in-out;
+            max-width: 100%;
+            height: auto;
         }
 
         .principal img {
@@ -61,15 +70,18 @@
         }
 
         .integrante p {
-        width: 200px; /* Define um tamanho fixo */
-        text-align: center; /* Mantém o texto alinhado */
-        overflow: hidden; /* Esconde o texto que ultrapassar */
-        white-space: nowrap; /* Impede quebra de linha */
-        text-overflow: ellipsis; /* Adiciona "..." caso o texto fique muito grande */
+            width: 100%;
+            max-width: 200px;
+            text-align: center;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
 
         .logo {
             filter: drop-shadow(0px 0px 10px white);
+            max-width: 90vw;
+            height: auto;
         }
 
         .spotify-embed {
@@ -78,11 +90,18 @@
             justify-content: center;
         }
 
-        /* Ocultar o embed quando a música não está em destaque */
         .hidden {
             display: none;
         }
 
+        @media (max-width: 768px) {
+            .carousel {
+                flex-direction: column;
+            }
+            .arrow {
+                font-size: 30px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -168,31 +187,31 @@
             document.getElementById("imagem-proximo").src = integrantes[proximoIndex].imagem;
         }
 
-        mudarIntegrante(0); // Inicializa a exibição correta
+        mudarIntegrante(0);
     </script>
 
     <h2>Músicas da Banda</h2>
     <div class="carousel" id="carousel-musicas">
         <div class="arrow" onclick="mudarMusica(-1)">&#9665;</div>
-    
+
         <div class="integrante lateral" id="musica-anterior">
             <p id="nome-musica-anterior"></p>
             <img id="imagem-musica-anterior">
         </div>
-    
+
         <div class="integrante principal" id="musica-atual">
             <p id="nome-musica-atual"><b>Seishun Complex</b></p>
             <a id="link-musica-atual" href="#" target="_blank">
                 <img id="imagem-musica-atual" src="seishun-complex.jpg">
             </a>
-            <div id="spotify-embed-atual" class="spotify-embed hidden"></div> <!-- Embed escondido inicialmente -->
+            <div id="spotify-embed-atual" class="spotify-embed hidden"></div>
         </div>
-    
+
         <div class="integrante lateral" id="musica-proxima">
             <p id="nome-musica-proxima"></p>
             <img id="imagem-musica-proxima">
         </div>
-    
+
         <div class="arrow" onclick="mudarMusica(1)">&#9655;</div>
     </div>
 
@@ -239,7 +258,6 @@
             document.getElementById("imagem-musica-atual").src = musicas[musicaIndex].imagem;
             document.getElementById("link-musica-atual").href = musicas[musicaIndex].link;
 
-            // Exibir o embed e esconder a capa da música
             document.getElementById("spotify-embed-atual").innerHTML = musicas[musicaIndex].embed;
             document.getElementById("spotify-embed-atual").classList.remove("hidden");
             document.getElementById("imagem-musica-atual").classList.add("hidden");
@@ -248,7 +266,7 @@
             document.getElementById("imagem-musica-proxima").src = musicas[proximoIndex].imagem;
         }
 
-        mudarMusica(0); // Inicializa o carrossel de músicas
+        mudarMusica(0);
     </script>
 </body>
 </html>
